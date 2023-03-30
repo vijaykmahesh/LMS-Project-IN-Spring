@@ -4,11 +4,15 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -16,7 +20,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @Configuration
 @ComponentScan("com.*")
+@EnableTransactionManagement
 public class ExpLmsConfig {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -39,17 +47,25 @@ public class ExpLmsConfig {
 		return sessionFactory;
 
 	}
-	
+
 	private Properties getHibernateProperties() {
-		
+
 		Properties property = new Properties();
 		property.put("hibernate.show_sql", "true");
 		property.put("hibernate.format_sql", "true");
 		property.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		//property.put("hibernate.hbm2ddl.auto", "update");
-		
-		
+		property.put("hibernate.hbm2ddl.auto", "update");
+
 		return property;
+	}
+	
+	@Bean
+	public HibernateTransactionManager transactionManager(){
+		
+		HibernateTransactionManager manager = new HibernateTransactionManager();
+		manager.setSessionFactory(sessionFactory);
+		
+		return manager;
 	}
 
 	@Bean

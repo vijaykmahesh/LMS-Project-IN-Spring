@@ -1,10 +1,10 @@
-package com.express.selexplms.dao;
+package com.express.selexplms.service;
 
 import java.util.List;
 
 import com.express.selexplms.entity.Instructor;
 
-public interface InstructorDAO {
+public interface InstructorService {
 	
 	public List<Instructor> findAllInstructor();
 

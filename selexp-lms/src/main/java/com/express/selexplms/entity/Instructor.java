@@ -12,7 +12,7 @@ public class Instructor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long instructor_id;
+	private int instructor_id;
 
 	private String instructor_name;
 
@@ -20,11 +20,12 @@ public class Instructor {
 
 	private String instructor_email;
 
-	public long getInstructor_id() {
+
+	public int getInstructor_id() {
 		return instructor_id;
 	}
 
-	public void setInstructor_id(long instructor_id) {
+	public void setInstructor_id(int instructor_id) {
 		this.instructor_id = instructor_id;
 	}
 
