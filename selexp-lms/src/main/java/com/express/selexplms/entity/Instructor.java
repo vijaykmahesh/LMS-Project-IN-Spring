@@ -1,9 +1,13 @@
 package com.express.selexplms.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +23,9 @@ public class Instructor {
 	private int instructor_training_exp;
 
 	private String instructor_email;
+	
+	@OneToMany(mappedBy = "instructor",fetch = FetchType.EAGER)
+	private List<Course> courses;
 
 
 	public int getInstructor_id() {
@@ -52,5 +59,15 @@ public class Instructor {
 	public void setInstructor_email(String instructor_email) {
 		this.instructor_email = instructor_email;
 	}
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+	
+	
 
 }

@@ -19,23 +19,23 @@
 
 	<div class="container">
 		<h1>Available Instructors</h1>
-		
+
 		<form:form action="process-search" method="GET"
-		modelAttribute="searchDTO">
-		
-		<label>Search Instructor</label>
-		<form:input path="id"/>
-		<input type="submit" value="submit">
-		
+			modelAttribute="searchDTO">
+
+			<label>Search Instructor</label>
+			<form:input path="id" />
+			<input type="submit" value="submit">
+
 		</form:form>
-		
+
 		<div align="right">
-		
+
 			<a href="/selexp-lms/instructor-info">Refresh List</a>
-		
+
 		</div>
-		
-		<br/>
+
+		<br />
 
 		<table class="table">
 			<thead class="table-info">
@@ -44,6 +44,7 @@
 					<th>InstructorName</th>
 					<th>InstructorTrainingExp</th>
 					<th>InstructorEmail</th>
+					<th>Courses</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,7 +55,29 @@
 						<td>${instructor.instructor_name}</td>
 						<td>${instructor.instructor_training_exp}</td>
 						<td>${instructor.instructor_email}</td>
-						<td><a class="btn btn-danger" href="/selexp-lms/deleteInstructor?id=${instructor.instructor_id}">delete</a></td>
+						<td>
+							<table class="table">
+								<thead class="table-info">
+									<tr>
+										<td>CourseName</td>
+										<td>Duration</td>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="course" items="${instructor.courses}">
+
+										<tr>
+
+											<td>${course.course_name}</td>
+											<td>${course.course_duration}</td>
+											<td><a href="/selexp-lms/viewCourse?courseId=${course.course_id}">View</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</td>
+						<td><a class="btn btn-danger"
+							href="/selexp-lms/deleteInstructor?id=${instructor.instructor_id}">delete</a></td>
 					</tr>
 				</c:forEach>
 

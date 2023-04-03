@@ -43,7 +43,7 @@ public class ExpLmsConfig {
 		sessionFactory.setDataSource(getDataSource());
 		sessionFactory.setPackagesToScan("com.express.selexplms.entity");
 		sessionFactory.setHibernateProperties(getHibernateProperties());
-
+		
 		return sessionFactory;
 
 	}
@@ -54,7 +54,6 @@ public class ExpLmsConfig {
 		property.put("hibernate.show_sql", "true");
 		property.put("hibernate.format_sql", "true");
 		property.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		property.put("hibernate.hbm2ddl.auto", "update");
 
 		return property;
 	}
