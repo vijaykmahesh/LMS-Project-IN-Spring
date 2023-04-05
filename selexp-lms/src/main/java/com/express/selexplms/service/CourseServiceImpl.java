@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.express.selexplms.dao.CourseDAO;
 import com.express.selexplms.entity.Course;
+import com.express.selexplms.entity.Lesson;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -23,6 +24,15 @@ public class CourseServiceImpl implements CourseService {
 		Hibernate.initialize(course.getLessons());
 		// inside course entity instead of using fetchType Eager we can use this line
 		return course;
+	}
+
+	@Transactional
+	@Override
+	public Lesson findLessonById(int lessonId) {
+		
+		Lesson lesson = courseDao.findLessonById(lessonId);
+
+		return lesson;
 	}
 
 }

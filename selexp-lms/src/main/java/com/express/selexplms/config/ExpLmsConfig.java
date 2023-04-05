@@ -1,5 +1,6 @@
 package com.express.selexplms.config;
 
+import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @EnableWebMvc
 @Configuration
@@ -37,7 +40,7 @@ public class ExpLmsConfig {
 	}
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
+	public LocalSessionFactoryBean sessionFactory() throws PropertyVetoException {
 
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(getDataSource());
@@ -68,15 +71,26 @@ public class ExpLmsConfig {
 	}
 
 	@Bean
-	public DataSource getDataSource() {
+	public DataSource getDataSource() throws PropertyVetoException {
 
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/expressportal");
-		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		/*It doesn't uses connection pool concept */
+		
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setUsername("root");
+//		dataSource.setPassword("root");
+//		dataSource.setUrl("jdbc:mysql://localhost:3306/expressportal");
+//		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		
+		ComboPooledDataSource pooledDataSource = new ComboPooledDataSource();
+		pooledDataSource.setUser("root");
+		pooledDataSource.setPassword("root");
+		pooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/expressportal");
+		pooledDataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+		
+		//pooledDataSource.setInitialPoolSize(30);
+		pooledDataSource.setAcquireIncrement(10);
 
-		return dataSource;
+		return pooledDataSource;
 	}
 
 }

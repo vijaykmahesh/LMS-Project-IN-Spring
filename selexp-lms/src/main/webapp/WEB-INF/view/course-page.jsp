@@ -15,7 +15,7 @@
 	
 	<c:forEach var="lesson" items="${course.lessons}">
 	
-	<a href="#">${lesson.lesson_name}</a>
+	<a href="/selexp-lms/openLesson?id=${lesson.lesson_id}">${lesson.lesson_name}</a>
 	
 	<br/> 
 	
