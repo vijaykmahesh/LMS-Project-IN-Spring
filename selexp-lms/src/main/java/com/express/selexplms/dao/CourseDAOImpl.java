@@ -1,5 +1,7 @@
 package com.express.selexplms.dao;
 
+import java.io.Serializable;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,17 @@ public class CourseDAOImpl implements CourseDAO {
 		Lesson lesson = currentSession.get(Lesson.class, lessonId);
 
 		return lesson;
+	}
+
+	@Override
+	public int save(Course course) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Serializable id = currentSession.save(course);
+		
+		return (Integer)id;
+		
 	}
 
 }

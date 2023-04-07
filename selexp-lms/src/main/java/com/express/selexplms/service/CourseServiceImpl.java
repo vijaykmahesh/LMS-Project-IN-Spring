@@ -35,4 +35,12 @@ public class CourseServiceImpl implements CourseService {
 		return lesson;
 	}
 
+	@Transactional
+	@Override
+	public int save(Course course) {
+		
+		return courseDao.save(course);
+		
+	}
+
 }

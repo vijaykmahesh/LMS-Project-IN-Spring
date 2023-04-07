@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.express.selexplms.dto.SearchDTO;
 import com.express.selexplms.entity.Instructor;
@@ -40,30 +39,29 @@ public class InstructorController {
 
 		return "add-instructor";
 	}
-	
+
 	@RequestMapping("/process-search")
 	public String showInsertInstructorPage(@RequestParam("id") int id, Model model) {
 
 		ArrayList<Instructor> list = new ArrayList<Instructor>();
-		
+
 		Instructor instructor = instructorService.searchInstructor(id);
 		list.add(instructor);
-		
+
 		model.addAttribute("instructorList", list);
 		model.addAttribute("searchDTO", new SearchDTO());
-		
+
 		return "instructor-home";
 	}
-	
+
 	@RequestMapping("/deleteInstructor")
 	public String deleteInstructor(@RequestParam("id") int id) {
-		
+
 		instructorService.deleteInstructor(id);
-		
+
 		return "redirect:/instructor-info";
 	}
 
-	
 	@PostMapping("/submit-instructor")
 	public String saveInstructor(Instructor instructor) {
 

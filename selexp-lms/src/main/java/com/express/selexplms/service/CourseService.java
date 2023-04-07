@@ -9,4 +9,6 @@ public interface CourseService {
 
 	public Lesson findLessonById(int lessonId);
 
+	public int save(Course course);
+
 }

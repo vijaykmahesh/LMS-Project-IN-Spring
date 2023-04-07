@@ -9,4 +9,6 @@ public interface CourseDAO {
 	
 	Lesson findLessonById(int lessonId);
 
+	int save(Course course);
+
 }
