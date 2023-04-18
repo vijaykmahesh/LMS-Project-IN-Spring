@@ -32,76 +32,130 @@ public class CourseController {
 	@Autowired
 	private InstructorService instructorService;
 
-	@ResponseBody
-	@GetMapping("/test")
-	public String test(@RequestParam("pageNumber") int pageNumber, HttpServletRequest request) {
-
-		// default pageNumber is 0
-		PagedListHolder<Lesson> pagedListHolder = new PagedListHolder<Lesson>();
-
-		// instead of making DB call for each and every pageNumber we are storing
-		// lessons which we got
-		// from pageListHolder inside session and fetching it again if it is not 1st
-		// time.
-
-		if (pageNumber == 0) {
-			Course course = courseService.findCourseById(1);
-
-			List<Lesson> lessonList1 = course.getLessons();
-
-			pagedListHolder.setSource(lessonList1);
-			pagedListHolder.setPageSize(2);
-
-			// For which pageNumber u want details to be printed
-			pagedListHolder.setPage(pageNumber);
-
-			List<Lesson> lessonListFromPageListHolder = pagedListHolder.getPageList();
-
-			HttpSession session = request.getSession();
-
-			session.setAttribute("pagedListHolder", pagedListHolder);
-
-			for (Lesson lesson : lessonListFromPageListHolder) {
-
-				System.out.println("  lesson  " + lesson);
-			}
-
-			System.out.println("current page " + pagedListHolder.getPage());
-
-			System.out.println("page size" + pagedListHolder.getPageSize());
-
-		}
-
-		else {
-
-			PagedListHolder<Lesson> lessonListNew = (PagedListHolder<Lesson>) request.getSession()
-					.getAttribute("pagedListHolder");
-			lessonListNew.setPage(pageNumber);
-
-			List<Lesson> lessonList = lessonListNew.getPageList();
-
-			for (Lesson lesson2 : lessonList) {
-
-				System.out.println("  lessonListNew  " + lesson2);
-
-			}
-
-			System.out.println("current page " + pagedListHolder.getPage());
-
-			System.out.println("page size" + pagedListHolder.getPageSize());
-		}
-
-		return "testing";
-	}
+//	@ResponseBody
+//	@GetMapping("/test")
+//	public String test(@RequestParam("pageNumber") int pageNumber, HttpServletRequest request) {
+//
+//		// default pageNumber is 0
+//		PagedListHolder<Lesson> pagedListHolder = new PagedListHolder<Lesson>();
+//
+//		// instead of making DB call for each and every pageNumber we are storing
+//		// lessons which we got
+//		// from pageListHolder inside session and fetching it again if it is not 1st
+//		// time.
+//
+//		if (pageNumber == 0) {
+//			Course course = courseService.findCourseById(1);
+//
+//			List<Lesson> lessonList1 = course.getLessons();
+//
+//			pagedListHolder.setSource(lessonList1);
+//			pagedListHolder.setPageSize(2);
+//
+//			// For which pageNumber u want details to be printed
+//			pagedListHolder.setPage(pageNumber);
+//
+//			List<Lesson> lessonListFromPageListHolder = pagedListHolder.getPageList();
+//
+//			HttpSession session = request.getSession();
+//
+//			session.setAttribute("pagedListHolder", pagedListHolder);
+//
+//			for (Lesson lesson : lessonListFromPageListHolder) {
+//
+//				System.out.println("  lesson  " + lesson);
+//			}
+//
+//			System.out.println("current page " + pagedListHolder.getPage());
+//
+//			System.out.println("page size" + pagedListHolder.getPageSize());
+//
+//		}
+//
+//		else {
+//
+//			PagedListHolder<Lesson> lessonListNew = (PagedListHolder<Lesson>) request.getSession()
+//					.getAttribute("pagedListHolder");
+//			lessonListNew.setPage(pageNumber);
+//
+//			List<Lesson> lessonList = lessonListNew.getPageList();
+//
+//			for (Lesson lesson2 : lessonList) {
+//
+//				System.out.println("  lessonListNew  " + lesson2);
+//
+//			}
+//
+//			System.out.println("current page " + pagedListHolder.getPage());
+//
+//			System.out.println("page size" + pagedListHolder.getPageSize());
+//		}
+//
+//		return "testing";
+//	}
+	
+	
+	
 
 	@GetMapping("/viewCourse")
-	public String viewcourse(@RequestParam("courseId") int courseId, Model model) {
+	public String viewcourse(@RequestParam("courseId") int courseId,@RequestParam(name="pageNum",required = false) String pageNum, Model model,
+			HttpServletRequest request) {
 
-		Course course = courseService.findCourseById(courseId);
+		PagedListHolder<Lesson> pagedLessonListHolder = new PagedListHolder<>();
+		
+		Course course = null;
+		
+		if(pageNum == null) {
+			
+		course = courseService.findCourseById(courseId);
+		
+		List<Lesson> lessons = course.getLessons();
+		
+		pagedLessonListHolder.setSource(lessons);
+		
+		pagedLessonListHolder.setPageSize(2);
+		
+		pagedLessonListHolder.setPage(0);
+		
+		
+		request.getSession().setAttribute("course", course);
+		request.getSession().setAttribute("lessonList", pagedLessonListHolder);
+		
+		pagedLessonListHolder.getPageList(); // fetch all lesson
+		
+		int pageCount = pagedLessonListHolder.getPageCount(); // for that particular page records present.
+		
+		
+		System.out.println("Page Count" +pageCount);
+		}
+		
+		else if("prev".equals(pageNum)) {
+			
+			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
+			pagedLessonListHolder.previousPage();
+			
+		}
+		
+		else if("next".equals(pageNum)) {
+			
+			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
+			pagedLessonListHolder.nextPage();			
+		}
+		
+		else {
+			
+			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
+			
+			pagedLessonListHolder.setPage(Integer.parseInt(pageNum));
+			
+		}
 
+		model.addAttribute("courseId",courseId);
 		model.addAttribute("course", course);
 
 		LessonCountDTO lessonCountDTO = new LessonCountDTO();
+		
+		course = (Course)request.getSession().getAttribute("course");
 
 		if (!course.getLessons().isEmpty()) {
 			int firstLesson = course.getLessons().get(0).getLesson_id();
