@@ -15,9 +15,9 @@ public class LessonServiceImpl implements LessonService {
 
 	@Transactional
 	@Override
-	public int saveLesson(Lesson lesson) {
+	public void saveLesson(Lesson lesson) {
 		
-		return lessonDao.save(lesson);
+		lessonDao.save(lesson);
 	}
 
 }

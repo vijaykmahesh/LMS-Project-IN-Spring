@@ -16,13 +16,12 @@ public class LessonDaoImpl implements LessonDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public int save(Lesson lesson) {
+	public void save(Lesson lesson) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Serializable id = currentSession.save(lesson);
+		currentSession.saveOrUpdate(lesson);
 
-		return (Integer) id;
 	}
 
 }

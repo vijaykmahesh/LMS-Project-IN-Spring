@@ -19,17 +19,27 @@
 	<br/>
 	<a href="/selexp-lms/addLesson?courseId=${courseId}" class="btn btn-primary">Add Lesson</a>
 	<hr>
-	<h3>Lessons</h3>
-	
 	<c:set var="pagedLessonList" value="${lessonList}" scope="session"></c:set>
 	
-	<c:forEach var="lesson" items="${pagedLessonList.pageList}">
-	
-	<a href="/selexp-lms/openLesson?id=${lesson.lesson_id}">${lesson.lesson_name}</a>
-	
-	<br/> 
-	
-	</c:forEach>
+	<table class="table">
+			<thead class="table-info">
+				<tr>
+					<th>Lesson Name</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="lesson" items="${pagedLessonList.pageList}">
+
+					<tr>
+						<td><a href="/selexp-lms/openLesson?id=${lesson.lesson_id}">${lesson.lesson_name}</a></td>
+						<td><a href="/selexp-lms/addLesson?courseId=${courseId}&lessonId=${lesson.lesson_id}" class="btn btn-success">Edit</a></td>
+					</tr>
+				</c:forEach>
+
+			</tbody>
+
+		</table>
 	
 	
 	<%--Below condition means if it is in first page then block prev or else show prev--%> 

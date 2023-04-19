@@ -190,13 +190,19 @@ public class CourseController {
 	}
 
 	@GetMapping("/addLesson")
-	public String addLesson(@RequestParam("courseId") int courseId, Model model) {
+	public String addLesson(@RequestParam("courseId") Integer courseId,
+			@RequestParam(value = "lessonId", required = false) Integer lessonId, Model model) {
 
 		Lesson lessonObj = new Lesson();
 
-		Course course = courseService.findCourseById(courseId);
+		if (lessonId == null) {
 
-		lessonObj.setCourse(course);
+			Course course = courseService.findCourseById(courseId);
+
+			lessonObj.setCourse(course);
+		} else {
+			lessonObj = courseService.findLessonById(lessonId);
+		}
 
 		model.addAttribute("lesson", lessonObj);
 

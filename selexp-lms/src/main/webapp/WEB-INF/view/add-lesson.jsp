@@ -22,6 +22,7 @@
 		modelAttribute="lesson">
 		
 		<form:hidden path="course.course_id"/>
+		<form:hidden path="lesson_id"/>
 		
 		<label>Lesson Name :</label>
 		<form:input path="lesson_name" />
