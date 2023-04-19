@@ -17,10 +17,11 @@
 	
 	<%
 		Lesson lesson = (Lesson)request.getAttribute("lesson");
-		int nextLessonId = lesson.getLesson_id()+1;
+	
+		int nextLessonId = lesson.getLesson_id() + 1;
 		pageContext.setAttribute("nextLessonId", nextLessonId);
 		
-		int previousLessonId = lesson.getLesson_id()-1;
+		int previousLessonId = lesson.getLesson_id() - 1;
 		pageContext.setAttribute("previousLessonId", previousLessonId);
 	%>
 <div class="container">
@@ -35,6 +36,7 @@
 	
 	</div>
 	
+	
 	<c:if test="${nextLessonId <= lessonCount.lastLessonNumber}">
 	<div align="right">
 	<a href="/selexp-lms/openLesson?id=${nextLessonId}">Next Video</a>
@@ -47,8 +49,6 @@
 	<a href="/selexp-lms/openLesson?id=${previousLessonId}">Previous Video</a>
 	</div>	
 	</c:if>
-	
-	
 </div>
 
 </body>

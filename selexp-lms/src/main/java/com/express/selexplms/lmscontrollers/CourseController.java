@@ -3,7 +3,6 @@ package com.express.selexplms.lmscontrollers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.express.selexplms.dto.LessonCountDTO;
@@ -32,7 +30,7 @@ public class CourseController {
 
 	@Autowired
 	private InstructorService instructorService;
-	
+
 	@Autowired
 	private LessonService lessonService;
 
@@ -97,69 +95,64 @@ public class CourseController {
 //
 //		return "testing";
 //	}
-	
-	
-	
 
 	@GetMapping("/viewCourse")
-	public String viewcourse(@RequestParam("courseId") int courseId,@RequestParam(name="pageNum",required = false) String pageNum, Model model,
-			HttpServletRequest request) {
+	public String viewcourse(@RequestParam("courseId") int courseId,
+			@RequestParam(name = "pageNum", required = false) String pageNum, Model model, HttpServletRequest request) {
 
 		PagedListHolder<Lesson> pagedLessonListHolder = new PagedListHolder<>();
-		
+
 		Course course = null;
-		
-		if(pageNum == null) {
-			
-		course = courseService.findCourseById(courseId);
-		
-		List<Lesson> lessons = course.getLessons();
-		
-		pagedLessonListHolder.setSource(lessons);
-		
-		pagedLessonListHolder.setPageSize(2);
-		
-		pagedLessonListHolder.setPage(0);
-		
-		
-		request.getSession().setAttribute("course", course);
-		request.getSession().setAttribute("lessonList", pagedLessonListHolder);
-		
-		pagedLessonListHolder.getPageList(); // fetch all lesson
-		
-		int pageCount = pagedLessonListHolder.getPageCount(); // for that particular page records present.
-		
-		
-		System.out.println("Page Count" +pageCount);
-		}
-		
-		else if("prev".equals(pageNum)) {
-			
-			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
-			pagedLessonListHolder.previousPage();
-			
-		}
-		
-		else if("next".equals(pageNum)) {
-			
-			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
-			pagedLessonListHolder.nextPage();			
-		}
-		
-		else {
-			
-			pagedLessonListHolder = (PagedListHolder<Lesson>)request.getSession().getAttribute("lessonList");
-			
-			pagedLessonListHolder.setPage(Integer.parseInt(pageNum));
-			
+
+		if (pageNum == null) {
+
+			course = courseService.findCourseById(courseId);
+
+			List<Lesson> lessons = course.getLessons();
+
+			pagedLessonListHolder.setSource(lessons);
+
+			pagedLessonListHolder.setPageSize(2);
+
+			pagedLessonListHolder.setPage(0);
+
+			request.getSession().setAttribute("course", course);
+			request.getSession().setAttribute("lessonList", pagedLessonListHolder);
+
+			pagedLessonListHolder.getPageList(); // fetch all lesson
+
+			int pageCount = pagedLessonListHolder.getPageCount(); // for that particular page records present.
+
+			System.out.println("Page Count" + pageCount);
 		}
 
-		model.addAttribute("courseId",courseId);
+		else if ("prev".equals(pageNum)) {
+
+			pagedLessonListHolder = (PagedListHolder<Lesson>) request.getSession().getAttribute("lessonList");
+			pagedLessonListHolder.previousPage();
+
+		}
+
+		else if ("next".equals(pageNum)) {
+
+			pagedLessonListHolder = (PagedListHolder<Lesson>) request.getSession().getAttribute("lessonList");
+			pagedLessonListHolder.nextPage();
+		}
+
+		else {
+
+			pagedLessonListHolder = (PagedListHolder<Lesson>) request.getSession().getAttribute("lessonList");
+
+			pagedLessonListHolder.setPage(Integer.parseInt(pageNum));
+
+		}
+
+		model.addAttribute("courseId", courseId);
 		model.addAttribute("course", course);
 
 		LessonCountDTO lessonCountDTO = new LessonCountDTO();
-		
-		course = (Course)request.getSession().getAttribute("course");
+
+		course = (Course) request.getSession().getAttribute("course");
 
 		if (!course.getLessons().isEmpty()) {
 			int firstLesson = course.getLessons().get(0).getLesson_id();
@@ -167,6 +160,10 @@ public class CourseController {
 			System.out.println("firstLesson " + firstLesson);
 
 			int lastLesson = (firstLesson + course.getLessons().size()) - 1;
+
+			// firstlesson = 1 lessonSize = 6 then use - 1
+
+			// to find lastlessonNumber ==> (1+6)- 1
 
 			System.out.println("lastLesson " + lastLesson);
 
@@ -176,6 +173,8 @@ public class CourseController {
 		} else
 
 			model.addAttribute("lessonCount", lessonCountDTO);
+
+		System.out.println("Lesson Count" + lessonCountDTO);
 
 		return "course-page";
 	}
@@ -189,22 +188,20 @@ public class CourseController {
 
 		return "lesson-page";
 	}
-	
+
 	@GetMapping("/addLesson")
-	public String addLesson(@RequestParam("courseId") int courseId,Model model) {
+	public String addLesson(@RequestParam("courseId") int courseId, Model model) {
 
 		Lesson lessonObj = new Lesson();
-		
+
 		Course course = courseService.findCourseById(courseId);
-		
+
 		lessonObj.setCourse(course);
 
 		model.addAttribute("lesson", lessonObj);
 
 		return "add-lesson";
 	}
-	
-	
 
 	@GetMapping("/add-course")
 	public String addCoursePage(Model model) {
@@ -225,7 +222,7 @@ public class CourseController {
 
 		return "redirect:/viewCourse?courseId=" + courseId;
 	}
-	
+
 	@PostMapping("/save-lesson")
 	public String saveLesson(Lesson lesson) {
 
@@ -233,7 +230,5 @@ public class CourseController {
 
 		return "redirect:/viewCourse?courseId=" + lesson.getCourse().getCourse_id();
 	}
-	
-	
 
 }
