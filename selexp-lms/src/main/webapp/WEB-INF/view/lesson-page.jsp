@@ -37,14 +37,14 @@
 	</div>
 	
 	
-	<c:if test="${nextLessonId <= lessonCount.lastLessonNumber}">
+	<c:if test="${previousLessonId <= lessonCount.lastLessonNumber}">
 	<div align="right">
 	<a href="/selexp-lms/openLesson?id=${nextLessonId}">Next Video</a>
 	</div>	
-	
+	previousLessonId
 	</c:if>
 	
-	<c:if test="${previousLessonId >= lessonCount.firstLessonNumber}">
+	<c:if test="${nextLessonId >= lessonCount.firstLessonNumber}">
 	<div align="left">
 	<a href="/selexp-lms/openLesson?id=${previousLessonId}">Previous Video</a>
 	</div>	

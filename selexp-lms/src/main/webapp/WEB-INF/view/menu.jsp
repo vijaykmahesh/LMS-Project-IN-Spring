@@ -29,7 +29,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/selexp-lms/add-instructor">Add Instructor</a></li>
 					<li class="nav-item"><a class="nav-link" 
-						href="/selexp-lms/add-instructor" >New Course</a></li>
+						href="/selexp-lms/add-course" >New Course</a></li>
 				</ul>
 			</div>
 		</div>
