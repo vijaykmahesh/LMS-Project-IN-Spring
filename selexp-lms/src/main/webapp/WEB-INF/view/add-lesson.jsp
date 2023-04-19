@@ -16,28 +16,33 @@
 
 <div class="container">
 
-	<h1>Create Your New Course</h1>
+	<h1>Create Your New Lesson</h1>
 	
-	<form:form action="save-course" method="POST"
-		modelAttribute="course">
-		<label>Course Name :</label>
-		<form:input path="course_name" />
+	<form:form action="save-lesson" method="POST"
+		modelAttribute="lesson">
+		
+		<form:hidden path="course.course_id"/>
+		
+		<label>Lesson Name :</label>
+		<form:input path="lesson_name" />
 		<br />
 		<br/>
-		<label>Course Duration:</label>
-		<form:input path="course_duration" />
+		
+		<label>Lesson Text:</label>
+		<form:input path="lesson_text" />
 		<br />
 		<br/>
 		
-		<label>Instructor Name</label>
-		<form:select path="instructor.instructor_id">
+		<label>Lesson Link:</label>
+		<form:input path="link" />
+		<br />
+		<br/>
 		
-		<form:options items="${instructorList}" itemLabel="instructor_name" itemValue="instructor_id"/>
-		
-		</form:select>
+		<label>Course Name:</label>
+		<form:input path="course.course_name" readonly="true"  disabled="true"/>
 		<br/>
 		<br/>
-		<input type="submit" value="Add">
+		<input type="submit" value="Add Lesson">
 
 	</form:form>
 	</div>

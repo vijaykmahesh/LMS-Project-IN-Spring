@@ -21,6 +21,7 @@ import com.express.selexplms.entity.Instructor;
 import com.express.selexplms.entity.Lesson;
 import com.express.selexplms.service.CourseService;
 import com.express.selexplms.service.InstructorService;
+import com.express.selexplms.service.LessonService;
 
 @SessionAttributes("lessonCount")
 @Controller
@@ -31,6 +32,9 @@ public class CourseController {
 
 	@Autowired
 	private InstructorService instructorService;
+	
+	@Autowired
+	private LessonService lessonService;
 
 //	@ResponseBody
 //	@GetMapping("/test")
@@ -179,12 +183,28 @@ public class CourseController {
 	@GetMapping("/openLesson")
 	public String openLesson(@RequestParam("id") int lessonId, Model model) {
 
-		Lesson lesson = courseService.findLessonById(lessonId);
+		Lesson lessonObj = courseService.findLessonById(lessonId);
 
-		model.addAttribute("lesson", lesson);
+		model.addAttribute("lesson", lessonObj);
 
 		return "lesson-page";
 	}
+	
+	@GetMapping("/addLesson")
+	public String addLesson(@RequestParam("courseId") int courseId,Model model) {
+
+		Lesson lessonObj = new Lesson();
+		
+		Course course = courseService.findCourseById(courseId);
+		
+		lessonObj.setCourse(course);
+
+		model.addAttribute("lesson", lessonObj);
+
+		return "add-lesson";
+	}
+	
+	
 
 	@GetMapping("/add-course")
 	public String addCoursePage(Model model) {
@@ -205,5 +225,15 @@ public class CourseController {
 
 		return "redirect:/viewCourse?courseId=" + courseId;
 	}
+	
+	@PostMapping("/save-lesson")
+	public String saveLesson(Lesson lesson) {
+
+		lessonService.saveLesson(lesson);
+
+		return "redirect:/viewCourse?courseId=" + lesson.getCourse().getCourse_id();
+	}
+	
+	
 
 }
