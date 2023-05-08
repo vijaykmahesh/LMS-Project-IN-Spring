@@ -41,7 +41,7 @@ public class CourseDAOImpl implements CourseDAO {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Serializable id = currentSession.save(course);
+		Serializable id = (Serializable) currentSession.save(course);
 		
 		return (Integer)id;
 		

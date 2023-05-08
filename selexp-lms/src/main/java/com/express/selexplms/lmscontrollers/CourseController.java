@@ -2,8 +2,6 @@ package com.express.selexplms.lmscontrollers;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +18,8 @@ import com.express.selexplms.entity.Lesson;
 import com.express.selexplms.service.CourseService;
 import com.express.selexplms.service.InstructorService;
 import com.express.selexplms.service.LessonService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @SessionAttributes("lessonCount")
 @Controller
@@ -112,18 +112,18 @@ public class CourseController {
 
 			pagedLessonListHolder.setSource(lessons);
 
-			pagedLessonListHolder.setPageSize(2);
+			pagedLessonListHolder.setPageSize(4);
 
 			pagedLessonListHolder.setPage(0);
 
 			request.getSession().setAttribute("course", course);
 			request.getSession().setAttribute("lessonList", pagedLessonListHolder);
 
-			pagedLessonListHolder.getPageList(); // fetch all lesson
-
-			int pageCount = pagedLessonListHolder.getPageCount(); // for that particular page records present.
-
-			System.out.println("Page Count" + pageCount);
+//			pagedLessonListHolder.getPageList(); // fetch all lesson
+//
+//			int pageCount = pagedLessonListHolder.getPageCount(); // for that particular page records present.
+//
+//			System.out.println("Page Count" + pageCount);
 		}
 
 		else if ("prev".equals(pageNum)) {
@@ -174,7 +174,7 @@ public class CourseController {
 
 			model.addAttribute("lessonCount", lessonCountDTO);
 
-		System.out.println("Lesson Count" + lessonCountDTO);
+			System.out.println("Lesson Count" + lessonCountDTO);
 
 		return "course-page";
 	}

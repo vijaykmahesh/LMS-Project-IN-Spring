@@ -2,19 +2,24 @@ package com.express.selexplms.entity;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Course")
+@Data // we don't need to add getter and setter
+@NoArgsConstructor
 public class Course {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int course_id;
@@ -22,59 +27,13 @@ public class Course {
 	private String course_name;
 
 	private String course_duration;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "fk_instructor_id")
 	private Instructor instructor;
-	
-	@OneToMany(mappedBy = "course")
+
+	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
 	private List<Lesson> lessons;
+
 	
-
-	public int getCourse_id() {
-		return course_id;
-	}
-
-	public void setCourse_id(int course_id) {
-		this.course_id = course_id;
-	}
-
-	public String getCourse_name() {
-		return course_name;
-	}
-
-	public void setCourse_name(String course_name) {
-		this.course_name = course_name;
-	}
-
-	public String getCourse_duration() {
-		return course_duration;
-	}
-
-	public void setCourse_duration(String course_duration) {
-		this.course_duration = course_duration;
-	}
-
-	public Instructor getInstructor() {
-		return instructor;
-	}
-
-	public void setInstructor(Instructor instructor) {
-		this.instructor = instructor;
-	}
-
-	public List<Lesson> getLessons() {
-		return lessons;
-	}
-
-	public void setLessons(List<Lesson> lessons) {
-		this.lessons = lessons;
-	}
-	
-	
-	
-	
-	
-	
-
 }

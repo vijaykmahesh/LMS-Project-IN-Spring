@@ -6,14 +6,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.express.selexplms.dto.SearchDTO;
 import com.express.selexplms.entity.Instructor;
 import com.express.selexplms.service.InstructorService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class InstructorController {
@@ -21,7 +27,7 @@ public class InstructorController {
 	@Autowired
 	private InstructorService instructorService;
 
-	@GetMapping("/instructor-info")
+	@GetMapping(value = "/instructor-info")
 	public String showInstructorHomePage(Model model) {
 
 		List<Instructor> instructorList = instructorService.findAllInstructor();
@@ -35,7 +41,11 @@ public class InstructorController {
 	@RequestMapping("/add-instructor")
 	public String showInsertInstructorPage(Model model) {
 
-		model.addAttribute("instructor", new Instructor());
+		if (!model.containsAttribute("instructor")) {
+
+			model.addAttribute("instructor", new Instructor());
+
+		}
 
 		return "add-instructor";
 	}
@@ -63,9 +73,20 @@ public class InstructorController {
 	}
 
 	@PostMapping("/submit-instructor")
-	public String saveInstructor(Instructor instructor) {
+	public String saveInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, BindingResult error,
+			RedirectAttributes redirectAttributes) {
 
-		System.out.println("instructor" + instructor);
+		if (error.hasErrors()) {
+
+			redirectAttributes.addFlashAttribute("instructor", instructor);
+			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.instructor", error);
+
+			System.out.println("Error" + error);
+
+			System.out.println("instructor" + instructor);
+
+			return "redirect:/add-instructor";
+		}
 
 		instructorService.save(instructor);
 

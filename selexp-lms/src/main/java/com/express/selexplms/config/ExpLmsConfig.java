@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -25,7 +24,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @ComponentScan("com.*")
 @EnableTransactionManagement
 public class ExpLmsConfig {
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -46,7 +45,7 @@ public class ExpLmsConfig {
 		sessionFactory.setDataSource(getDataSource());
 		sessionFactory.setPackagesToScan("com.express.selexplms.entity");
 		sessionFactory.setHibernateProperties(getHibernateProperties());
-		
+
 		return sessionFactory;
 
 	}
@@ -56,38 +55,38 @@ public class ExpLmsConfig {
 		Properties property = new Properties();
 		property.put("hibernate.show_sql", "true");
 		property.put("hibernate.format_sql", "true");
-		property.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		property.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
 
 		return property;
 	}
-	
+
 	@Bean
-	public HibernateTransactionManager transactionManager(){
-		
+	public HibernateTransactionManager transactionManager() {
+
 		HibernateTransactionManager manager = new HibernateTransactionManager();
 		manager.setSessionFactory(sessionFactory);
-		
+
 		return manager;
 	}
 
 	@Bean
 	public DataSource getDataSource() throws PropertyVetoException {
 
-		/*It doesn't uses connection pool concept */
-		
+		/* It doesn't uses connection pool concept */
+
 //		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 //		dataSource.setUsername("root");
 //		dataSource.setPassword("root");
 //		dataSource.setUrl("jdbc:mysql://localhost:3306/expressportal");
 //		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		
+
 		ComboPooledDataSource pooledDataSource = new ComboPooledDataSource();
 		pooledDataSource.setUser("root");
 		pooledDataSource.setPassword("root");
 		pooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/expressportal");
 		pooledDataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-		
-		//pooledDataSource.setInitialPoolSize(30);
+
+		// pooledDataSource.setInitialPoolSize(30);
 		pooledDataSource.setAcquireIncrement(10);
 
 		return pooledDataSource;
