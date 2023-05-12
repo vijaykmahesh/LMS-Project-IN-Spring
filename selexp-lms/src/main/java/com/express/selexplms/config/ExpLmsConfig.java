@@ -38,7 +38,7 @@ public class ExpLmsConfig {
 		return resolver;
 	}
 
-	@Bean
+	@Bean // by adding spring-orm jar file
 	public LocalSessionFactoryBean sessionFactory() throws PropertyVetoException {
 
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();

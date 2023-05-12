@@ -20,6 +20,7 @@ import com.express.selexplms.service.InstructorService;
 import com.express.selexplms.service.LessonService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @SessionAttributes("lessonCount")
 @Controller
@@ -170,12 +171,13 @@ public class CourseController {
 			lessonCountDTO.setFirstLessonNumber(firstLesson);
 			lessonCountDTO.setLastLessonNumber(lastLesson);
 
-		} else
+		} 
+		
+			System.out.println("Lesson Count" + lessonCountDTO);
 
 			model.addAttribute("lessonCount", lessonCountDTO);
 
-			System.out.println("Lesson Count" + lessonCountDTO);
-
+			
 		return "course-page";
 	}
 

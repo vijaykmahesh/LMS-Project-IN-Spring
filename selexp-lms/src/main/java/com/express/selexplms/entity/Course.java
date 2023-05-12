@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity // by adding hibernate-core jar file
 @Table(name = "Course")
 @Data // we don't need to add getter and setter
 @NoArgsConstructor
