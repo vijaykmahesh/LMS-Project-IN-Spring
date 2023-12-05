@@ -15,6 +15,9 @@ com\express\selexplms\service\CourseService.class
 com\express\selexplms\dto\SearchDTO.class
 com\express\selexplms\dao\CourseDAO.class
 com\express\selexplms\dto\LessonCountDTO.class
+com\express\selexplms\securityconfig\DelegatingFilter.class
 com\express\selexplms\config\ExpLmsIntialize.class
+com\express\selexplms\securityconfig\SelexpSecurityApp.class
 com\express\selexplms\service\InstructorServiceImpl.class
+com\express\selexplms\lmscontrollers\CourseController.class
 com\express\selexplms\dao\LessonDaoImpl.class
