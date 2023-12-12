@@ -3,6 +3,7 @@ package com.express.selexplms.securityconfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -39,7 +40,18 @@ public class SelexpSecurityApp {
 			.anyRequest().authenticated();
 		});
 
-		httpSecurity.formLogin();
+		httpSecurity.formLogin(loginCustomizer -> 
+        										loginCustomizer.loginPage("/custom-login").permitAll()
+										        .loginProcessingUrl("/process-login")
+										        .defaultSuccessUrl("/instructor-info"))
+		
+					.logout(logoutCustomizer -> 
+										        logoutCustomizer
+										        .logoutUrl("/custom-logout").permitAll());
+		
+		httpSecurity.httpBasic(Customizer.withDefaults());
+		
+		httpSecurity.csrf(csrfCustomizer -> csrfCustomizer.disable());
 
 		return httpSecurity.build();
 
