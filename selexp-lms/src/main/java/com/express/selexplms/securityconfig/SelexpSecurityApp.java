@@ -21,15 +21,15 @@ public class SelexpSecurityApp {
 	@Autowired
 	private HttpSecurity httpSecurity;
 
-	@Bean
-	public InMemoryUserDetailsManager setUpUser() {
-
-		UserDetails vijay = User.withUsername("vijay")
-				.password("$2a$04$XNvx/pdxzPIX70.YJkK/EO/tBPM2A7n.bZGyHFhAbQlSEcajtsRRy").roles("user").build();
-
-		return new InMemoryUserDetailsManager(vijay);
-
-	}
+//	@Bean
+//	public InMemoryUserDetailsManager setUpUser() {
+//
+//		UserDetails vijay = User.withUsername("vijay")
+//				.password("$2a$04$XNvx/pdxzPIX70.YJkK/EO/tBPM2A7n.bZGyHFhAbQlSEcajtsRRy").roles("user").build();
+//
+//		return new InMemoryUserDetailsManager(vijay);
+//
+//	}
 
 	@Bean
 	public SecurityFilterChain settingUpHttpSecurity() throws Exception {

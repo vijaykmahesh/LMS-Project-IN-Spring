@@ -9,18 +9,27 @@
 </head>
 <body>
 
+<h1 align="center">Register Here</h1>
+<hr/>
+
+<div align="center">
  <form:form action="process-registration" method="POST" modelAttribute="reg">
    
-  Username:  <form:input type="text" path="username" name="user"/>
+  Username:  <form:input path="username" name="user"/>
   <br/>
-  Password:  <form:input type="text" path="password" name="pass" />
+  <br/>
+  Password:  <form:password  path="password" name="pass" />
+  <br/>
+  <br/>
+  Email:  <form:input  path="email" name="email" />
+  <br/>
   <br/>
   <input type="submit" value="register">
   
-  
- 
  
  </form:form>
+ 
+ </div>
 
 </body>
 </html>

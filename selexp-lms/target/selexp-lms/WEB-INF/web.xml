@@ -8,4 +8,9 @@
 >
     <display-name> Welcome to Tomcat</display-name>
     <description> Welcome to Tomcat</description>
+    
+    <welcome-file-list>
+    <welcome-file>instructor-home.jsp</welcome-file>
+</welcome-file-list>
+
 </web-app>
